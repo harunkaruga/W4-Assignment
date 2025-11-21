@@ -54,3 +54,14 @@ AIOps applies AI to IT operations to make deployments more reliable and faster.
 Predictive failure detection: AIOps monitors logs and metrics to predict issues before deployment finishes (e.g., high error rate after release). This lets engineers roll back or pause automatically — fewer failed deployments and less downtime.
 
 Automating rollback and remediation: When deployment problems are detected, AIOps can suggest or automatically run rollback steps or run remediation scripts (e.g., restart service, reconfigure load balancer) — speeds up recovery and reduces manual triage.
+
+
+#Sort list of dictionaries
+Which is more efficient and why? (200-word analysis — include in report)
+
+Analysis (beginner):
+Both versions use Python’s built-in sorting, which has O(n log n) time complexity. The Copilot suggestion uses sorted() with a lambda d.get(key, None), which is concise and normally fast. The manual version uses list.sort() with a sort_key that returns a tuple to handle missing values consistently — this is also O(n log n).
+
+The major difference is in robustness and handling of edge cases. Copilot’s basic approach is fastest in the common case: keys are present and values are comparable. However, if values are mixed types (e.g., strings and None), Copilot’s suggestion may raise a TypeError (hence the try/except fallback). The manual approach intentionally handles missing keys by returning a tuple (is_none, val), guaranteeing consistent ordering and avoiding exceptions without extra try/except.
+
+In short: Performance is similar (both O(n log n)), but manual implementation is safer for mixed/missing values. For production code where inputs are uncertain, the manual approach is preferable for correctness; for quick tasks where data is clean, Copilot’s suggestion is concise and fine.
